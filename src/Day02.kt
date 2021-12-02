@@ -1,28 +1,27 @@
-import java.io.File
-
 fun main() {
-    fun part1(input: List<Commands>): Int {
+    fun part1(input: List<String>): Int {
         var horizontalPosition: Int = 0
         var verticalPosition: Int = 0
-
-        for ((keyword, value) in input) {
-            when (keyword) {
+        for (line in input) {
+            val command = line.substringBeforeLast(" ")
+            val value = line.substringAfterLast(" ").toInt()
+            when (command) {
                 "forward" -> horizontalPosition += value
                 "up" -> verticalPosition -= value
                 "down" -> verticalPosition += value
             }
         }
-
         return horizontalPosition * verticalPosition
     }
 
-    fun part2(input: List<Commands>): Int {
+    fun part2(input: List<String>): Int {
         var horizontalPosition: Int = 0
         var verticalPosition: Int = 0
         var aim: Int = 0
-
-        for ((keyword, value) in input) {
-            when (keyword) {
+        for (line in input) {
+            val command = line.substringBeforeLast(" ")
+            val value = line.substringAfterLast(" ").toInt()
+            when (command) {
                 "forward" -> {
                     horizontalPosition += value
                     verticalPosition += aim * value
@@ -31,19 +30,11 @@ fun main() {
                 "down" -> aim += value
             }
         }
-
         return horizontalPosition * verticalPosition
     }
 
-    val input = File("src/resources/day2.txt")
-        .readLines()
-        .map {
-            val (command, value) = it.split(" ")
-            Commands(command, value.toInt())
-        }
+    val input: List<String> = readInput("resources/day2")
 
     println("Answer 1: ${part1(input)}")
     println("Answer 2: ${part2(input)}")
 }
-
-data class Commands(val command: String, val value: Int)
