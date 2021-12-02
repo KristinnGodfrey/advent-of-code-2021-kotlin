@@ -1,23 +1,26 @@
 fun main() {
-    fun part1(input: List<Int>): Int {
-        var counter = 1
-        for (i in 1 until input.size) {
-            if (input[i] > input[i - 1]) {
+    fun twoMeasurements(input: List<Int>): Int {
+        var counter = 0
+        val inputIt = input.listIterator(1)
+        while (inputIt.hasNext()) {
+            val inputItPrev = inputIt.previous().let { inputIt.next() }
+            val inputItNext = inputIt.next()
+            if (inputItNext > inputItPrev) {
                 counter++
             }
         }
         return counter
     }
 
-    fun part2(input: List<Int>): Int {
-        var counter = 1
-        var oldSum: Int = input[0] + input[1] + input[2]
-        for (i in 1 until (input.size - 3)) {
-            val newSum: Int = input[i] + input[i + 1] + input[i + 2]
-            if (newSum > oldSum) {
-                counter++
-            }
-            oldSum = newSum
+    fun threeMeasurements(input: List<Int>): Int {
+        var counter = 0
+        val inputIt = input.listIterator(3)
+        while (inputIt.hasNext()) {
+            val prev = inputIt.previous() + inputIt.previous() + inputIt.previous()
+            inputIt.next().let { inputIt.next() }.let { inputIt.next() }.let { inputIt.next() }
+            val current = inputIt.previous() + inputIt.previous() + inputIt.previous()
+            inputIt.next().let { inputIt.next() }.let { inputIt.next() }
+            if (current > prev) counter++
         }
         return counter
     }
@@ -26,12 +29,6 @@ fun main() {
     val testInput: List<Int> = readInput("resources/day1")
         .map(String::toInt)
 
-
-    // iterate through testInput
-    println("Answer 1: ${part1(testInput)}")
-    println("Answer 2: ${part2(testInput)}")
-
-//    val input = readInput("Day01")
-//    println(part1(input))
-//    println(part2(input))
+    println("Answer 1: ${twoMeasurements(testInput)}")
+    println("Answer 2: ${threeMeasurements(testInput)}")
 }
