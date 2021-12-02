@@ -16,19 +16,19 @@ fun main() {
         var horizontalPosition: Int = 0
         var verticalPosition: Int = 0
         var aim: Int = 0
-        var depth: Int = 0
         for (line in input) {
             when (line.substringBeforeLast(" ")) {
                 "forward" ->
-                    horizontalPosition += line.substringAfterLast(" ")
-                        .toInt().also { depth += aim * line.substringAfterLast(" ").toInt() }
+                    horizontalPosition += line.substringAfterLast(" ").toInt().also {
+                        verticalPosition += aim * line.substringAfterLast(" ").toInt()
+                    }
                 "up" -> aim -= line.substringAfterLast(" ").toInt()
                 "down" -> aim += line.substringAfterLast(" ").toInt()
             }
         }
-        return horizontalPosition * depth
+        return horizontalPosition * verticalPosition
     }
-    // test if implementation meets criteria from the description, like:
+
     val input: List<String> = readInput("resources/day2")
 
     println("Answer 1: ${part1(input)}")
