@@ -13,14 +13,11 @@ fun main() {
     // 1-2
     fun threeMeasurements(input: List<Int>): Int {
         var counter = 0
-        val inputWindowed = input.windowed(4)
+        val inputWindowed = input.windowed(3)
+        var oldWindow = 9999
         for (window in inputWindowed) {
-            val inputIt = window.listIterator(3)
-            val prev = inputIt.previous() + inputIt.previous() + inputIt.previous()
-            inputIt.next().let { inputIt.next() }.let { inputIt.next() }.let { inputIt.next() }
-            val current = inputIt.previous() + inputIt.previous() + inputIt.previous()
-            inputIt.next().let { inputIt.next() }.let { inputIt.next() }
-            if (current > prev) counter++
+            if (window.sum() > oldWindow) counter++
+            oldWindow = window.sum()
         }
         return counter
     }
