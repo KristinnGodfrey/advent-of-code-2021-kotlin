@@ -20,5 +20,5 @@ You can solve the puzzle and provide an answer using the language of your choice
 |---------------------------+----------|
 | Day 1: Sonar Sweep        | [[./src/Day01.kt][part 1-2]] |
 | Day 2: Dive!              | [[./src/Day02.kt][part 1-2]] |
-| Day 3: Binary Diagnostic! | [[./src/Day3.kt][part 1-2]] |
-|                           |          |
+| Day 3: Binary Diagnostic! | [[./src/Day03.kt][part 1-2]] |
+
