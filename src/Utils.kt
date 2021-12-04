@@ -28,14 +28,4 @@ fun convertBinaryToDecimal(num: Long): Int {
 }
 
 
-fun countBits(input: List<String>, i: Int): Pair<Int, Int> {
-    var zerosAndOnes = Pair(0, 0)
-    for (line in input) {
-        if (line[i].toString() == "0") {
-            zerosAndOnes = zerosAndOnes.copy(first = zerosAndOnes.first + 1)
-        } else if (line[i].toString() == "1") {
-            zerosAndOnes = zerosAndOnes.copy(second = zerosAndOnes.second + 1)
-        }
-    }
-    return zerosAndOnes
-}
+

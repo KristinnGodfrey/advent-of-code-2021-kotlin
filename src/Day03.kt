@@ -1,42 +1,34 @@
 fun main() {
-    fun leastCommonValue(input: MutableList<String>): Int {
+    fun countBits(input: List<String>, i: Int): Pair<Int, Int> {
+        var zerosAndOnes = Pair(0, 0)
+        for (line in input) {
+            if (line[i].toString() == "0") {
+                zerosAndOnes = zerosAndOnes.copy(first = zerosAndOnes.first + 1)
+            } else if (line[i].toString() == "1") {
+                zerosAndOnes = zerosAndOnes.copy(second = zerosAndOnes.second + 1)
+            }
+        }
+        return zerosAndOnes
+    }
+
+    fun xCommonValue(input: MutableList<String>, mostCommonValueBool: Boolean): Int {
         val delArray = mutableListOf<String>()
+        val mostCommonValue = if (mostCommonValueBool) Pair("0", "1") else Pair("1", "0")
         for (i in input[0].indices) {
             val (countZeros, countOnes) = countBits(input, i)
             for (line in input) {
                 if ((countOnes > countZeros) or (countOnes == countZeros)) {
-                    if (line[i].toString() == "1") {
+                    if (line[i].toString() == mostCommonValue.first) {
                         delArray.add(line)
                     }
                 } else if ((countOnes < countZeros)) {
-                    if (line[i].toString() == "0") {
+                    if (line[i].toString() == mostCommonValue.second) {
                         delArray.add(line)
                     }
                 }
             }
             delArray.forEach { k -> input.remove(k) }
 
-            if (input.size == 1) break
-        }
-        return convertBinaryToDecimal(input[0].toLong())
-    }
-
-    fun mostCommonValue(input: MutableList<String>): Int {
-        val delArray = mutableListOf<String>()
-        for (i in input[0].indices) {
-            val (countZeros, countOnes) = countBits(input, i)
-            for (line in input) {
-                if ((countOnes > countZeros) or (countOnes == countZeros)) {
-                    if (line[i].toString() == "0") {
-                        delArray.add(line)
-                    }
-                } else if (countOnes < countZeros) {
-                    if (line[i].toString() == "1") {
-                        delArray.add(line)
-                    }
-                }
-            }
-            delArray.forEach { k -> input.remove(k) }
             if (input.size == 1) break
         }
         return convertBinaryToDecimal(input[0].toLong())
@@ -57,8 +49,8 @@ fun main() {
     fun part2(): Int {
         val input1: MutableList<String> = readInput("resources/day3") as MutableList<String>
         val input2: MutableList<String> = readInput("resources/day3") as MutableList<String>
-        val oxygenGeneratorRating = mostCommonValue(input1)
-        val carbonDioxideRating = leastCommonValue(input2)
+        val oxygenGeneratorRating = xCommonValue(input1, true)
+        val carbonDioxideRating = xCommonValue(input2, false)
         return oxygenGeneratorRating * carbonDioxideRating
     }
 
