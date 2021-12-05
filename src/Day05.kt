@@ -19,10 +19,10 @@ fun main() {
     }
 
     fun part1(input: List<InputPointsString>): Int {
-        val grid = create10x10Grid(input)
-
-//        grid[5][5] = 5
-
+//        val grid = create10x10Grid(input)
+        val mx = input.maxOf { l -> maxOf(l.x.first, l.x.second) }
+        val my = input.maxOf { l -> maxOf(l.y.first, l.y.second) }
+        val grid = Array(mx + 1) { IntArray(my + 1) }
 
         for (line in input) {
             val x1 = line.x.first
@@ -35,32 +35,34 @@ fun main() {
             if (x1 == x2) {
                 println("up")
                 for (i in minOf(y1, y2)..maxOf(y1, y2)) {
-                    grid[x1][i]++
+                    print("$i ")
+                    grid[i][y1]++
                 }
             } else if (y1 == y2) {
                 println("down")
                 for (i in minOf(x1, x2)..maxOf(x1, x2)) {
-                    grid[i][y1]++
+                    print("$i ")
+                    grid[x1][i]++
                 }
             } else {
                 println("neither")
             }
-
+            println()
             println()
         }
 
-        var highest = 0
+        var counter = 0
         for (array in grid) {
             for (value in array) {
                 print(value)
                 print(" ")
-                if (value > highest) {
-                    highest = value
+                if (value > 1) {
+                    counter++
                 }
             }
             println()
         }
-        return highest
+        return counter
 
 
     }
