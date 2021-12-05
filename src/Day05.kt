@@ -1,51 +1,59 @@
 import java.io.File
 
+
 data class InputPointsString(val x: Pair<Int, Int>, val y: Pair<Int, Int>)
 
 fun main() {
-    fun create10x10Grid(): MutableList<List<Int>> {
-        val grid = mutableListOf<List<Int>>()
-        for (i in 0..9) {
-            for (j in 0..9) {
-                grid.add(listOf(i, j, 0))
+    fun create10x10Grid(input: List<InputPointsString>): Array<IntArray> {
+        val mx = input.maxOf { l -> maxOf(l.x.first, l.x.second) }
+        val my = input.maxOf { l -> maxOf(l.y.first, l.y.second) }
+        val grid = Array(mx + 1) { IntArray(mx + 1) }
+        for (i in input.indices) {
+            val row = IntArray(10)
+            for (j in row.indices) {
+                row[j] = 0
             }
+            grid[i] = row
         }
         return grid
     }
 
     fun part1(input: List<InputPointsString>): Int {
-        val grid = create10x10Grid()
-        for (array in grid) {
-            print(array)
-            for (value in grid) {
+        val grid = create10x10Grid(input)
 
-            }
-            println()
-        }
+//        grid[5][5] = 5
+
 
         for (line in input) {
-            val xFirst = line.x.first
-            val yFirst = line.y.first
-            val xSecond = line.x.second
-            val ySecond = line.y.second
-            println(
-                "xFirst: $xFirst, xSecond: $xSecond \nyFirst: $yFirst, xSecond: $ySecond"
-            )
+            val x1 = line.x.first
+            val x2 = line.x.second
+            val y1 = line.y.first
+            val y2 = line.y.second
+            println("x1: $x1, x2: $x2")
+            println("y1: $y1, y2: $y2")
 
-            if (xFirst > xSecond) {
-                println("WASUP")
-                for (i in xSecond..xFirst) {
-//                    grid[i][y]
-                    println(i)
+            if (x1 == y1) {
+                println("up")
+                for (i in minOf(y1, y2)..maxOf(y1, y2)) {
+                    grid[x1][i]++
                 }
-
-            } else if (xFirst > xSecond) {
-
-            } else if (xSecond > xSecond) {
-
-            } else if (xSecond < xSecond) {
-
+            } else if (x2 == y2) {
+                println("down")
+                for (i in minOf(x1, x2)..maxOf(x1, x2)) {
+                    grid[i][y1]++
+                }
+            } else {
+                println("neither")
             }
+
+            for (array in grid) {
+                for (value in array) {
+                    print(value)
+                    print(" ")
+                }
+                println()
+            }
+
             println()
         }
         return 0
