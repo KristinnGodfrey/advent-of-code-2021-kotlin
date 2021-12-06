@@ -5,6 +5,10 @@ fun main() {
         val inputNumbers = input[0]
         val boards = input
             .slice(2 until input.size)
+            .chunked(6)
+//            .map {
+//                val (a, b, c, d, e) = it.split("")
+//            }
 
         println("\n")
         println("inputNumbers $inputNumbers")
@@ -12,18 +16,18 @@ fun main() {
         println("\n")
 
         val listOfPlayers = mutableListOf<Player>()
-        for (b in boards) {
-            val player = Player(mutableListOf(), false)
-            if (b != "") {
-                player.board += "row"
-            } else if (b == "") {
-                player.board += "new Row"
-            } else {
-                listOfPlayers.add(player)
-                continue
-            }
-        }
-        println(listOfPlayers)
+//        for (b in boards) {
+//            val player = Player(mutableListOf(), false)
+//            if (b != "") {
+//                player.board += "row"
+//            } else if (b == "") {
+//                player.board += "new Row"
+//            } else {
+//                listOfPlayers.add(player)
+//                continue
+//            }
+//        }
+//        println(listOfPlayers)
 
         return 0
     }
