@@ -5,44 +5,40 @@ data class InputPointsString(val x1: Int, val y1: Int, val x2: Int, val y2: Int)
 
 fun main() {
 
-    fun part1(input: List<InputPointsString>): Int {
+    fun create10x10Grid() {
         val mx = input.maxOf { l -> maxOf(l.x1, l.x2) }
         val my = input.maxOf { l -> maxOf(l.y1, l.y2) }
         val grid = Array(mx + 1) { IntArray(my + 1) }
+    }
+
+    fun part1(input: List<InputPointsString>): Int {
+
 
         for (l in input) {
-            println("x1: ${l.x1}, x2: ${l.x2}")
-            println("y1: ${l.y1}, y2: ${l.y2}")
+//            println("x1: ${l.x1}, x2: ${l.x2}")
+//            println("y1: ${l.y1}, y2: ${l.y2}")
 
             if (l.x1 == l.x2) {
-                println("up")
-                for (i in minOf(l.y1, l.y2)..maxOf(l.y1, l.y2)) {
-                    print("$i ")
-                    grid[i][l.y1]++
+                for (y in minOf(l.y1, l.y2)..maxOf(l.y1, l.y2)) {
+                    grid[l.x1][y]++
                 }
             } else if (l.y1 == l.y2) {
-                println("down")
-                for (i in minOf(l.x1, l.x2)..maxOf(l.x1, l.x2)) {
-                    print("$i ")
-                    grid[l.x1][i]++
+                for (x in minOf(l.x1, l.x2)..maxOf(l.x1, l.x2)) {
+                    grid[x][l.y1]++
                 }
-            } else {
-                println("neither")
             }
-            println()
-            println()
         }
 
         var counter = 0
         for (array in grid) {
             for (value in array) {
-                print(value)
-                print(" ")
+//                print(value)
+//                print(" ")
                 if (value > 1) {
                     counter++
                 }
             }
-            println()
+//            println()
         }
         return counter
 
