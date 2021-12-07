@@ -5,7 +5,6 @@ fun main() {
         var mutableInput = input
         for (i in 0 until 80) {
             for (j in 0 until mutableInput.size) {
-                println(mutableInput.size)
                 if (mutableInput[j] == 0) {
                     mutableInput[j] = 6 + 1
                     mutableInput.add(8 + 1)
@@ -27,6 +26,8 @@ fun main() {
             for (j in 1 until fishArray.size) {
                 fishArray[j - 1] = fishArray[j]
             }
+            fishArray.map { it - 1 }
+
             fishArray[fishArray.size - 1] = 0
 
             fishArray[6] += depletedFishes
