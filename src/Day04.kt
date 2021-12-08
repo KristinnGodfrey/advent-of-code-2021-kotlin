@@ -1,5 +1,3 @@
-import com.sun.org.apache.xerces.internal.util.XMLChar.trim
-
 data class Player(var board: List<String>, val hasWon: Boolean)
 
 fun main() {
@@ -18,7 +16,7 @@ fun main() {
             .chunked(6)
             .map {
                 it.map { l ->
-                    l.forEach { k -> trim(k.toString()) }
+//                    l.forEach { k -> trim(k.toString()) }
                     val (a, b, c, d, e) = l.split(" ")
                     listOfPlayers.add(Player(board = listOf(a, b, c, d, e), false))
                 }
