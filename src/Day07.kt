@@ -5,7 +5,7 @@ import kotlin.math.ceil
 fun main() {
 
     fun Int.likelyNumber(average: Int, max: Int?): Boolean {
-        /* Relative to the average, remove the first quarter and second quarter of values.
+        /* Relative to the average, remove the first quarter and last quarter of values.
          * Test input optimized by 50% using this. */
         return !((this < average / 2) or (this > (average + max!!) / 2))
     }
