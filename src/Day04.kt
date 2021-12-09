@@ -1,48 +1,59 @@
-data class Player(var board: List<String>, val hasWon: Boolean)
+data class Player(var board: List<Int>, var hasWon: Boolean)
+
 
 fun main() {
+
+    fun calculateBoard(board: MutableList<Int>, player: Player) {
+        var countx = 0
+        for (i in board) {
+            if (board[i] == 999) countx++
+        }
+        if (countx == 5) player.hasWon = true
+    }
+
+    fun checkPlayerBoard(num: Int, player: Player) {
+        for (j in 0 until player.board.size) {
+            val mutablePlayer = player.board.toMutableList()
+            if (player.board[j] == num) {
+                mutablePlayer[j] = 999
+                calculateBoard(mutablePlayer, player)
+            }
+        }
+    }
+
     fun part1(input: List<String>): Int {
-        val inputNumbers = input[0]
         val listOfPlayers = mutableListOf<Player>()
-
-        val boardsPrint = input
-            .slice(1 until input.size)
-            .chunked(6)
-        println("\n")
-        println(boardsPrint)
-
-        val boards = input
+        val inputNumbers = input[0]
+            .split(",")
+            .map { it.toInt() }
+        input
             .slice(1 until input.size)
             .chunked(6)
             .map {
                 it.map { l ->
-//                    l.forEach { k -> trim(k.toString()) }
-                    val (a, b, c, d, e) = l.split(" ")
-                    listOfPlayers.add(Player(board = listOf(a, b, c, d, e), false))
+                    if (l.isNotEmpty()) {
+                        val (a, b, c, d, e) = l
+                            .replace("  ", " ")
+                            .trim()
+                            .split(" ")
+                            .map { s -> s.toInt() }
+                        listOfPlayers.add(Player(board = listOf(a, b, c, d, e), false))
+                    }
                 }
             }
 
+        for (i in inputNumbers) {
+            for (player in listOfPlayers) {
+                checkPlayerBoard(i, player)
+            }
+        }
 
-//        println("inputNumbers $inputNumbers")
-        println(listOfPlayers)
-        println("\n")
-
-
-//        for (b in boards) {
-//            val player = Player(mutableListOf(), false)
-//            if (b != "") {
-//                player.board += "row"
-//            } else if (b == "") {
-//                player.board += "new Row"
-//            } else {
-//                listOfPlayers.add(player)
-//                continue
-//            }
-//        }
-//        println(listOfPlayers)
-
+        for (player in listOfPlayers) {
+            println(player)
+        }
         return 0
     }
+
 
     fun part2(input: List<String>): Int {
 
