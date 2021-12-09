@@ -26,12 +26,8 @@ fun main() {
             for (j in 1 until fishArray.size) {
                 fishArray[j - 1] = fishArray[j]
             }
-            fishArray.map { it - 1 }
-
-            fishArray[fishArray.size - 1] = 0
-
             fishArray[6] += depletedFishes
-            fishArray[8] += depletedFishes
+            fishArray[8] = depletedFishes
         }
 
         return fishArray.sum()
