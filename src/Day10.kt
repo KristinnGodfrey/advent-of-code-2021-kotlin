@@ -7,6 +7,15 @@ fun main() {
 
     val putters: List<Char> = listOf('(', '[', '{', '<')
     val poppers: List<Char> = listOf(')', ']', '}', '>')
+//
+//    val points = mapOf(
+//        ')' to 3,
+//        ']' to 57,
+//        '}' to 1197,
+//        '>' to 25137
+//    )
+
+    val errorStack = mutableListOf<Char>()
 
     val stack = ArrayDeque<Char>()
     var counter = 0
@@ -20,12 +29,10 @@ fun main() {
                 for (j in poppers.indices) {
                     if (char == poppers[j]) {
                         if (lastIndex == j) {
-                            print("Char: ${stack.last()} --- ")
-                            println("P: ${poppers[j]}")
                             stack.removeLast()
+                            errorStack.add(char)
                         } else {
-                            print("Char: ${stack.last()} XXX ")
-                            println("P: ${poppers[j]}")
+                            break
                         }
                     }
                 }
@@ -34,8 +41,20 @@ fun main() {
         counter++
         println("iteration: $counter")
         println("Stack: $stack")
-        println()
+//        stack.forEach { errorStack.add(it) }
+        println("Errorstack $errorStack")
     }
+    errorStack.forEach { println(it) }
+    var points = 0
+    errorStack.forEach {
+        when (it) {
+            ')' -> points += 37
+            ']' -> points += 57
+            '}' -> points += 1197
+            '>' -> points += 25137
+        }
+    }
+    println(points)
     println(stack)
 }
 
