@@ -4,20 +4,20 @@ fun main() {
 
 
     val inputStringBuilder = StringBuilder()
-    File("src/resources/day10.txt")
+    val input = File("src/resources/day10.txt")
         .readLines()
-        .forEach { i -> inputStringBuilder.append("$i ") }
+    
 
-    val inputString = inputStringBuilder
-        .trim()
-        .split(" ")
-
+//    var charArray2: List<List<String>> = mutableListOf(
+//        inputString
+//    )
+//
+//    println(charArray2[0])
+//
 //    val input = inputString
-//        .trim()
-//        .split(" ")
-////        .map { it.single() }
 
-    println(inputString)
+
+//    println(inputString)
 
 //
 //    val charArray: List<List<Char>> =
