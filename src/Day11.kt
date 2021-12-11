@@ -6,11 +6,15 @@ fun main() {
         .map { it.map { l -> l - '0' }.toMutableList() }.toMutableList()
 
     var flashCounter = 0
+    var flag = true
+    var counter = 0
 
-    repeat(100) {
+    while (flag) {
+        counter++
         val flashStack = ArrayDeque<Pair<Int, Int>>()
         val hasFlashed = ArrayDeque<Pair<Int, Int>>()
         hasFlashed.clear()
+
 
         fun checkState(y: Int, x: Int) {
             if (input[y][x] == 10) {
@@ -83,6 +87,8 @@ fun main() {
         }
 
         while (flashStack.isNotEmpty()) {
+            println(hasFlashed.size)
+            if (hasFlashed.size == 99) flag = false
             val pos = flashStack.removeFirst()
             hasFlashed.add(pos)
             flash(pos)
@@ -97,6 +103,7 @@ fun main() {
         }
         println("---")
     }
+    println("iteration counter: $counter")
     println("flashcounter: $flashCounter")
 
 }
