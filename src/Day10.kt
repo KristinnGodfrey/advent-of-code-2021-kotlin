@@ -14,30 +14,27 @@ fun main() {
         for (char in line) {
             if (char in putters) {
                 stack.add(char)
+                println("Char: ${stack.last()}")
             } else if (char in poppers) {
                 val lastIndex = getLastIndex(stack, putters)
-//                val currentIndex = getCurrentIndex(lastIndex, poppers)
                 for (j in poppers.indices) {
                     if (char == poppers[j]) {
                         if (lastIndex == j) {
                             print("Char: ${stack.last()} --- ")
                             println("P: ${poppers[j]}")
+                            stack.removeLast()
                         } else {
                             print("Char: ${stack.last()} XXX ")
                             println("P: ${poppers[j]}")
                         }
                     }
-
                 }
-//                println("${stack.last()}: $lastIndex")
-//                println("$char: $currentIndex")
-//                println()
-//                if (lastIndex == currentIndex)
             }
-
         }
         counter++
         println("iteration: $counter")
+        println("Stack: $stack")
+        println()
     }
     println(stack)
 }
