@@ -26,12 +26,12 @@ fun main() {
     for (line in input) {
         var corrupt = false
         stack.clear()
-        myloop@ for (char in line) {
+        for (char in line) {
             if (char in putters) {
                 stack.add(char)
             } else if (char in poppers) {
                 corrupt = popOrCorrupt(stack, putters, poppers, char, errorStack)
-                if (corrupt) break@myloop
+                if (corrupt) break
             }
         }
         if (!corrupt) {
