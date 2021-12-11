@@ -7,32 +7,28 @@ fun main() {
 
     val putters: List<Char> = listOf('(', '[', '{', '<')
     val poppers: List<Char> = listOf(')', ']', '}', '>')
-//
-//    val points = mapOf(
-//        ')' to 3,
-//        ']' to 57,
-//        '}' to 1197,
-//        '>' to 25137
-//    )
 
     val errorStack = mutableListOf<Char>()
 
     val stack = ArrayDeque<Char>()
     var counter = 0
     for (line in input) {
-        for (char in line) {
+        myloop@ for (char in line) {
             if (char in putters) {
                 stack.add(char)
-                println("Char: ${stack.last()}")
+                print("${stack.last()} ")
             } else if (char in poppers) {
                 val lastIndex = getLastIndex(stack, putters)
                 for (j in poppers.indices) {
                     if (char == poppers[j]) {
                         if (lastIndex == j) {
                             stack.removeLast()
-                            errorStack.add(char)
+                            print("Char: $char ")
                         } else {
-                            break
+                            errorStack.add(char)
+                            print("Char: $char ")
+                            print("BROKEN --- Expected ${stack.last()} but found $char instead. ")
+                            break@myloop
                         }
                     }
                 }
@@ -40,20 +36,30 @@ fun main() {
         }
         counter++
         println("iteration: $counter")
-        println("Stack: $stack")
 //        stack.forEach { errorStack.add(it) }
-        println("Errorstack $errorStack")
     }
-    errorStack.forEach { println(it) }
+//    errorStack.forEach { println(it) }
     var points = 0
+    var par = 0
+    var brace = 0
+    var curl = 0
+    var greater = 0
     errorStack.forEach {
         when (it) {
-            ')' -> points += 37
-            ']' -> points += 57
-            '}' -> points += 1197
-            '>' -> points += 25137
+            ')' -> par++
+            ']' -> brace++
+            '}' -> curl++
+            '>' -> greater++
         }
     }
+
+    points += par * 3
+    points += brace * 57
+    points += curl * 1197
+    points += greater * 25137
+
+
+    println("Errorstack $errorStack")
     println(points)
     println(stack)
 }
