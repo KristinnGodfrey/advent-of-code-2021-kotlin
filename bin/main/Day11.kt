@@ -7,12 +7,26 @@ fun main() {
         .map { it.map { l -> l - '0' }.toMutableList() }.toMutableList()
 
     input.forEachIndexed { li, e ->
-        println(input[e[0]])
         e.forEachIndexed { i, v ->
-//            println(v)
         }
-        println("")
     }
 
+    println(input[0][3])
+
+    repeat(100) {
+        val flashStack = ArrayDeque<Pair<Int, Int>>()
+        input.forEachIndexed { li, e ->
+            e.forEachIndexed { i, v ->
+                input[li][i] += v + 1
+                if (input[li][i] == 10) {
+                    flashStack.add(Pair(li, i))
+                }
+            }
+        }
+
+    }
+    input.forEachIndexed { li, e ->
+        println(e)
+    }
 
 }
