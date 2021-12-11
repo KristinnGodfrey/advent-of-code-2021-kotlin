@@ -34,73 +34,83 @@ fun main() {
 
     for (i in 0 until inputSize) {
         val currentValue = input[i]
-        // define a nullable variable lastValue
-        val lastValue: Int? = input[i - 1]
-        val nextValue: Int? = input[i + 1]
-        val overValue: Int? = input[i - lineLength]
-        val underValue: Int? = input[i + lineLength]
+        var lastValue = 0
+        var nextValue = 0
+        var overValue = 0
+        var underValue = 0
 
+        // assign values if they are not out of bounds.
+        try {
+            lastValue = input[i - 1]
+        } catch (e: Exception) {
+            println("index out of bounds $e")
+        }
+        try {
+            nextValue = input[i + 1]
+        } catch (e: Exception) {
+            println("index out of bounds $e")
+        }
+        try {
+            overValue = input[i - lineLength]
+        } catch (e: Exception) {
+            println("index out of bounds $e")
+        }
+        try {
+            underValue = input[i + lineLength]
+        } catch (e: Exception) {
+            println("index out of bounds $e")
+        }
+        
         if (isLeft(i)) {
-            val nextValue = input[i + 1]
             // upper left corner
             if (isTopLine(i)) {
-                val underValue = input[i + lineLength]
                 if ((currentValue < nextValue) and (currentValue < underValue))
                     lowPoints.add(input[i])
             }
             // bottom left corner
             else if (isBottomLine(i, lineLength)) {
-                val overValue = input[i - lineLength]
                 if ((currentValue < nextValue) and (currentValue < overValue))
                     lowPoints.add(input[i])
             }
             // left
             else {
-                val overValue = input[i - lineLength]
-                val underValue = input[i + lineLength]
                 if ((currentValue < nextValue) and (currentValue < underValue) and (currentValue < overValue))
                     lowPoints.add(input[i])
             }
         } else if (isRight(i)) {
-            val lastValue = input[i - 1]
             //upper right corner
             if (isTopLine(i)) {
-                val underValue = input[i + lineLength]
                 if ((currentValue < lastValue) and (currentValue < underValue))
                     lowPoints.add(input[i])
             }
             // bottom right corner
             else if (isBottomLine(i, lineLength)) {
-                val overValue = input[i - lineLength]
                 if ((currentValue < lastValue) and (currentValue < overValue))
                     lowPoints.add(input[i])
             }
             // right
             else {
-                val underValue = input[i + lineLength]
-                val overValue = input[i - lineLength]
                 if ((currentValue < lastValue) and (currentValue < underValue) and (currentValue < overValue))
                     lowPoints.add(input[i])
             }
         } else if (isTopLine(i)) {
             // top
-            val underValue = input[i + lineLength]
-            if ((currentValue < lastValue!!) and (currentValue < underValue) and (currentValue < nextValue!!))
+            if ((currentValue < lastValue) and (currentValue < underValue) and (currentValue < nextValue))
                 lowPoints.add(input[i])
         } else if (isBottomLine(i, lineLength)) {
             // bottom
-            val overValue = input[i - lineLength]
-            if ((currentValue < lastValue!!) and (currentValue < overValue) and (currentValue < nextValue!!))
+            if ((currentValue < lastValue) and (currentValue < overValue) and (currentValue < nextValue))
                 lowPoints.add(input[i])
         } else {
             // middle
-
-            if ((currentValue < lastValue!!) and (currentValue < nextValue!!) and (currentValue < overValue!!) and (currentValue < underValue!!)) {
+            if ((currentValue < lastValue) and (currentValue < nextValue) and (currentValue < overValue) and (currentValue < underValue)) {
                 lowPoints.add(input[i])
             }
         }
     }
 
     val ans = lowPoints.sumOf { it + 1 }
+
+// depth first search all points in lowPoints
     println(ans)
 }
