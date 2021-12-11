@@ -11,6 +11,7 @@ fun main() {
     val errorStack = mutableListOf<Char>()
 
     val stack = ArrayDeque<Char>()
+    val remainderStack: MutableList<MutableList<Char>> = mutableListOf()
     var counter = 0
     for (line in input) {
         myloop@ for (char in line) {
@@ -36,13 +37,11 @@ fun main() {
         }
         counter++
         println("iteration: $counter")
-//        stack.forEach { errorStack.add(it) }
     }
-//    errorStack.forEach { println(it) }
-    var points = 0
-    var par = 0
-    var brace = 0
-    var curl = 0
+    var points = 0;
+    var par = 0;
+    var brace = 0;
+    var curl = 0;
     var greater = 0
     errorStack.forEach {
         when (it) {
@@ -52,7 +51,6 @@ fun main() {
             '>' -> greater++
         }
     }
-
     points += par * 3
     points += brace * 57
     points += curl * 1197
