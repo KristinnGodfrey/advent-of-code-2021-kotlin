@@ -30,23 +30,12 @@ fun main() {
             if (char in putters) {
                 stack.add(char)
             } else if (char in poppers) {
-                val lastIndex = getLastIndex(stack, putters)
-                for (j in poppers.indices) {
-                    if (char == poppers[j]) {
-                        if (lastIndex == j) {
-                            stack.removeLast()
-                        } else {
-                            corrupt = true
-                            errorStack.add(char)
-                            stack.add(char)
-                            break@myloop
-                        }
-                    }
-                }
+                corrupt = popOrCorrupt(stack, putters, poppers, char, errorStack)
+                if (corrupt) break@myloop
             }
         }
         if (!corrupt) {
-            var tmpList = mutableListOf<Char>()
+            val tmpList = mutableListOf<Char>()
             stack.reversed().forEach {
                 if (it in mapping.keys) {
                     tmpList.add(mapping.getValue(it))
@@ -55,23 +44,23 @@ fun main() {
             remainderStack.add(tmpList)
         }
     }
-    var points = 0;
-    var par = 0;
-    var brace = 0;
-    var curl = 0;
-    var greater = 0
+    var points = 0
+    var par = 0
+    var brace = 0
+    var curl = 0
+    var angle = 0
     errorStack.forEach {
         when (it) {
             ')' -> par++
             ']' -> brace++
             '}' -> curl++
-            '>' -> greater++
+            '>' -> angle++
         }
     }
     points += par * 3
     points += brace * 57
     points += curl * 1197
-    points += greater * 25137
+    points += angle * 25137
 
     println("Answer 1: $points")
 
@@ -86,6 +75,28 @@ fun main() {
 
     val sortedList = listOfScores.sorted()
     println("Answer 2: ${sortedList[listOfScores.size / 2]}")
+}
+
+fun popOrCorrupt(
+    stack: ArrayDeque<Char>,
+    putters: List<Char>,
+    poppers: List<Char>,
+    char: Char,
+    errorStack: MutableList<Char>
+): Boolean {
+    val lastIndex = getLastIndex(stack, putters)
+    for (j in poppers.indices) {
+        if (char == poppers[j]) {
+            if (lastIndex == j) {
+                stack.removeLast()
+            } else {
+                errorStack.add(char)
+                stack.add(char)
+                return true
+            }
+        }
+    }
+    return false
 }
 
 fun getLastIndex(stack: ArrayDeque<Char>, putters: List<Char>): Int {
