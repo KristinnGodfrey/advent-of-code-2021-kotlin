@@ -20,13 +20,12 @@ fun main() {
         hasFlashed.clear()
 
         fun checkState(y: Int, x: Int) {
-            if (input[y][x] >= 10) {
+            if (input[y][x] == 10) {
                 if (Pair(y, x) !in hasFlashed) {
                     flashStack.add(Pair(y, x))
+                } else {
+                    println("PAIR ($y, $x) in hasFlashed")
                 }
-//                } else {
-////                    println("PAIR ($y, $x) in hasFlashed")
-//                }
             }
         }
 
@@ -41,7 +40,7 @@ fun main() {
             flashCounter++
             val y = pos.first
             val x = pos.second
-//            println("FLASH: (${y}, ${x})")
+            println("FLASH: (${y}, ${x})")
 
             //left
             try {
@@ -115,9 +114,7 @@ fun main() {
         while (flashStack.isNotEmpty()) {
             val pos = flashStack.removeFirst()
             hasFlashed.add(pos)
-            if (pos !in hasFlashed) {
-                flash(pos)
-            }
+            flash(pos)
         }
 
         hasFlashed.forEachIndexed { i, e ->
