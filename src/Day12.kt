@@ -9,6 +9,7 @@ fun main() {
 
         val smallCaves: MutableList<String> = mutableListOf()
         val bigCaves: MutableList<String> = mutableListOf()
+        val startPoints: MutableList<List<String>> = mutableListOf()
 
         input.forEach {
             it.forEach { l ->
@@ -22,42 +23,52 @@ fun main() {
                         }
                     }
                 }
+                if (it[0] == "start") {
+                    if (it !in startPoints) {
+                        startPoints.add(it)
+                    }
+                }
             }
         }
 
-        fun smallCaveInList(current: List<String>, paths: MutableList<String>): Boolean {
-            if (current[1] in smallCaves && current[1] in paths) {
+        fun smallCaveInList(current: String, paths: MutableList<String>): Boolean {
+            if (current in smallCaves && current in paths) {
                 return true
             }
             return false
         }
 
-        fun findPaths(current: List<String>, lastArg: List<String>, paths: MutableList<String>): MutableList<String> {
+        fun findPaths(current: String, lastArg: String, paths: MutableList<String>): MutableList<String> {
             var last = lastArg
-
-            paths.add(current[1])
+//            println("last: $last")
             println("current: $current")
-            val nextList = input.filter { it[0] == current[1] }.toMutableList()
+            paths.add(last)
+            val nextList = input.filter { it[0] == current }.toMutableList()
             while (nextList.isNotEmpty()) {
-                val next = nextList.removeFirst()
-                if (next[1] == "end") {
-                    paths.add("end")
-                } else if (!smallCaveInList(next, paths)) {
+                val next = nextList.removeFirst()[1] // before slice: [A,c] [A,b] [A,end] [] [b,d] [b,end] []
+                val nextNotEmpty = findPaths(next, last, paths).isNotEmpty()
+                if (next == "end") {
+                    paths.add(next)
+                    println("End")
+                } else if (!smallCaveInList(next, paths) && nextNotEmpty) {
                     findPaths(next, current, paths)
-                } else if (current[0] in bigCaves) {
-                    println("lol")
-                    findPaths(last, current, paths)
                 }
             }
+            if (last in bigCaves) {
+                findPaths(last, current, paths)
+            }
+
             println("---")
-            return mutableListOf("")
+            return paths
         }
 
-        input.forEachIndexed { i, j ->
-            val paths = mutableListOf<String>("start")
-//            println(findPaths(j, paths))
-            findPaths(j, listOf(""), paths)
+        var ans = mutableListOf<String>()
+        startPoints.forEachIndexed { i, j ->
+            val paths = mutableListOf<String>()
+            println("current: start")
+            println(findPaths(j[1], "start", paths))
         }
+//        println("ANS $ans")
 
 
 //        println(input[1][1].isLowerCase())
@@ -68,8 +79,10 @@ fun main() {
     fun part2(): Int {
         return 0
     }
-
-    println("Answer 1: ${part1()}")
-    println("Answer 2: ${part2()}")
+    part1()
+    part2()
+//    println("Answer 1: ${part1()}")
+//    println("Answer 2: ${part2()}")
 }
+
 
