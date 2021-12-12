@@ -2,11 +2,25 @@ data class Player(var board: MutableList<MutableList<Int>>, var hasWon: Boolean)
 
 fun main() {
 
-    val checkWinnerStack = ArrayDeque<Pair<Int, Int>>()
+    fun calculateWinningScore(player: Player, value: Int) {
+        println("---")
+        println("WE HAVE A WINNER:")
+        println(player.board)
+        println("Value: $value")
+        println("---")
+        var score = 0
+        val scoreMap = player.board.flatMap {
+            it.filter { l -> l != 999 }
+
+        }
+        println("SCOREMAP")
+        println(scoreMap.sum() * value)
+        println("SCOREMAP")
+    }
 
     fun checkWinner(player: Player, y: Int, x: Int): Boolean {
         val b = player.board
-        println("YX: $y, $x")
+//        println("YX: $y, $x")
         if ((y == 0 && x == 0) or (y == 1 && x == 1) or (y == 2 && x == 2) or (y == 3 && x == 3) or (y == 4 && x == 4)) {
             if ((b[0][0] == 999) and (b[1][1] == 999) and (b[2][2] == 999) and (b[3][3] == 999) and (b[3][3] == 999) and (b[4][4] == 999)) {
                 return true
@@ -18,7 +32,7 @@ fun main() {
             for (i in b.indices) {
                 if ((b[i][x]) == 999) counter++
             }
-            if (counter == 4) return true
+            if (counter == 5) return true
         }
 
         return false
@@ -28,9 +42,13 @@ fun main() {
     fun findValueInBoard(player: Player, value: Int) {
         player.board.forEachIndexed { y, mutableList ->
             mutableList.forEachIndexed { x, v ->
-                if (value == v) {
+                if ((value == v) and (!player.hasWon)) {
                     player.board[y][x] = 999
-                    if (checkWinner(player, y, x)) player.hasWon = true
+                    if (checkWinner(player, y, x)) {
+                        player.hasWon = true
+                        calculateWinningScore(player, value)
+                    }
+
                 }
             }
         }
@@ -52,10 +70,19 @@ fun main() {
             .chunked(5)
             .forEach { listOfPlayers.add(Player(it as MutableList<MutableList<Int>>, false)) }
 
-        listOfPlayers.forEach {
-            findValueInBoard(it, 22)
+//        println("INITIAL")
+//        println(listOfPlayers)
+//        println("END INITIAL")
+
+        val counter = 0
+        for (i in inputNumbers) {
+            listOfPlayers.forEach {
+                findValueInBoard(it, i)
+            }
+//            println(listOfPlayers)
+
         }
-        println(listOfPlayers)
+//        println(listOfPlayers)
 
         return 0
     }
