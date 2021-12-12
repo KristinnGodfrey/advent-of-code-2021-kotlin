@@ -12,9 +12,9 @@ fun main() {
     fun checkWinner(player: Player, y: Int, x: Int): Boolean {
         val b = player.board
 
-        if (b[y].all { it == 999 }) return true
+        if (b[y].all { row -> row == 999 }) return true
 
-        if (b.count { row -> row[x] == 999 } == 5) return true
+        if (b.count { col -> col[x] == 999 } == 5) return true
 
         return false
     }
