@@ -38,24 +38,30 @@ fun main() {
 //            input.forEach { println("IT: ${it[1]}") }
 
 //            paths.add(current[1])
-            println(current)
+            println("current: $current")
+            paths.add(current[1])
             val next = input.filter { it[0] == current[1] }.toMutableList()
+//            println("next: $next")
             while (next.isNotEmpty()) {
                 val currentTmp = next.removeFirst()
                 if (findPaths(currentTmp, paths).isEmpty()) {
-                    println("current: $currentTmp, is empty")
-                    return paths
+//                    paths.add("end")
+//                    return paths
+//                    println("current: $currentTmp, is empty")
                 } else {
                     findPaths(currentTmp, paths)
                 }
             }
-            return paths
+//            if (paths.last() != "end") paths.clear()
+//            println("DELETED: $paths")
+            return mutableListOf()
         }
 
         input.forEachIndexed { i, j ->
-            val paths = mutableListOf<String>()
-            val ans = findPaths(j, paths)
-            println(ans)
+            val paths = mutableListOf<String>("start")
+//            println(findPaths(j, paths))
+            findPaths(j, paths)
+
         }
 
 
