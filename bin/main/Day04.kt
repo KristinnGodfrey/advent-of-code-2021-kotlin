@@ -4,20 +4,36 @@ fun main() {
 
     val checkWinnerStack = ArrayDeque<Pair<Int, Int>>()
 
-    fun findValueInBoard(Player: Player, value: Int) {
-        val lop = listOfPlayers
-        for (l in listOfPlayers.indices) {
-            lop[l].board.forEachIndexed { i, e ->
-                e.forEachIndexed { j, v ->
-                    if (value == v) {
-                        lop[l].board[i][j] = 999
-
-                    }
-                }
+    fun checkWinner(player: Player, y: Int, x: Int): Boolean {
+        val b = player.board
+        println("YX: $y, $x")
+        if ((y == 0 && x == 0) or (y == 1 && x == 1) or (y == 2 && x == 2) or (y == 3 && x == 3) or (y == 4 && x == 4)) {
+            if ((b[0][0] == 999) and (b[1][1] == 999) and (b[2][2] == 999) and (b[3][3] == 999) and (b[3][3] == 999) and (b[4][4] == 999)) {
+                return true
             }
-            println()
+        } else if (b[y].all { it == 999 }) {
+            return true
+        } else {
+            var counter = 0
+            for (i in b.indices) {
+                if ((b[i][x]) == 999) counter++
+            }
+            if (counter == 4) return true
         }
 
+        return false
+
+    }
+
+    fun findValueInBoard(player: Player, value: Int) {
+        player.board.forEachIndexed { y, mutableList ->
+            mutableList.forEachIndexed { x, v ->
+                if (value == v) {
+                    player.board[y][x] = 999
+                    if (checkWinner(player, y, x)) player.hasWon = true
+                }
+            }
+        }
     }
 
     fun part1(input: List<String>): Int {
@@ -25,7 +41,6 @@ fun main() {
         val inputNumbers = input[0]
             .split(",")
             .map { it.toInt() }
-//        println(input)
 
         input
             .slice(1 until input.size)
@@ -40,19 +55,7 @@ fun main() {
         listOfPlayers.forEach {
             findValueInBoard(it, 22)
         }
-        findValueInBoard(listOfPlayers, 22)
         println(listOfPlayers)
-
-
-//                    if (l.isNotEmpty()) {
-//                        val (a, b, c, d, e) = l
-//                            .replace("  ", " ")
-//                            .trim()
-//                            .split(" ")
-//                            .map { s -> s.toInt() }
-//                        listOfPlayers.add(Player(board = listOf(a, b, c, d, e), false))
-//                    }
-
 
         return 0
     }
