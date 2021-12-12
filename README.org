@@ -21,10 +21,13 @@ You can solve the puzzle and provide an answer using the language of your choice
 | Day 1: Sonar Sweep             | [[./src/Day01.kt][part 1-2]] |
 | Day 2: Dive!                   | [[./src/Day02.kt][part 1-2]] |
 | Day 3: Binary Diagnostic!      | [[./src/Day03.kt][part 1-2]] |
-| Day 4: Giant Squid             | [[./src/Day04.kt][part 0]]   |
+| Day 4: Giant Squid             | [[./src/Day04.kt][part 1-2]] |
 | Day 5: Hydrothermal Venture    | [[./src/Day05.kt][part 1]]   |
 | Day 6: Lanternfish             | [[./src/Day06.kt][part 1-2]] |
 | Day 7: The Treachery of Whales | [[./src/Day07.kt][part 1-2]] |
 | Day 8: Seven Segment Search    | [[./src/Day08.kt][part 1]]   |
+| Day 9: Snoke Basin             | [[./src/Day09.kt][part 1]]   |
+| Day 10: Syntax Scoring         | [[./src/Day10.kt][part 1-2]] |
+| Day 11: Dumbo Octopus          | [[./src/Day11.kt][part 1-2]] |
 
 
