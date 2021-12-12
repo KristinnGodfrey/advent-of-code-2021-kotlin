@@ -33,34 +33,29 @@ fun main() {
 //        println(smallCaves)
 //        println(bigCaves)
 
-        fun findPaths(current: List<String>, paths: MutableList<String>): Int {
+        fun findPaths(current: List<String>, paths: MutableList<String>): MutableList<String> {
 //            println("current: ${current[1]}")
 //            input.forEach { println("IT: ${it[1]}") }
 
-            println("---")
-            val next = input.filter { it[0] == current[1] }
-            print("current: $current, ")
-            print("next: $next, ")
-            println("---")
-
-//            paths.add(next)
-//            findPaths(next, paths)
-
-//            println(paths)
-//
-//            // check these paths
-//            filter.forEach {
-//                paths.add(it[1])
-//            }
-//            paths.forEachIndexed { i, j ->
-//
-//            }
-            return 0
+//            paths.add(current[1])
+            println(current)
+            val next = input.filter { it[0] == current[1] }.toMutableList()
+            while (next.isNotEmpty()) {
+                val currentTmp = next.removeFirst()
+                if (findPaths(currentTmp, paths).isEmpty()) {
+                    println("current: $currentTmp, is empty")
+                    return paths
+                } else {
+                    findPaths(currentTmp, paths)
+                }
+            }
+            return paths
         }
 
         input.forEachIndexed { i, j ->
             val paths = mutableListOf<String>()
-            findPaths(j, paths)
+            val ans = findPaths(j, paths)
+            println(ans)
         }
 
 
