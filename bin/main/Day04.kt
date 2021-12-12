@@ -1,24 +1,23 @@
-data class Player(var board: List<Int>, var hasWon: Boolean)
-
+data class Player(var board: MutableList<MutableList<Int>>, var hasWon: Boolean)
 
 fun main() {
 
-    fun calculateBoard(board: MutableList<Int>, player: Player) {
-        var countx = 0
-        for (i in board) {
-            if (board[i] == 999) countx++
-        }
-        if (countx == 5) player.hasWon = true
-    }
+    val checkWinnerStack = ArrayDeque<Pair<Int, Int>>()
 
-    fun checkPlayerBoard(num: Int, player: Player) {
-        for (j in 0 until player.board.size) {
-            val mutablePlayer = player.board.toMutableList()
-            if (player.board[j] == num) {
-                mutablePlayer[j] = 999
-                calculateBoard(mutablePlayer, player)
+    fun findValueInBoard(Player: Player, value: Int) {
+        val lop = listOfPlayers
+        for (l in listOfPlayers.indices) {
+            lop[l].board.forEachIndexed { i, e ->
+                e.forEachIndexed { j, v ->
+                    if (value == v) {
+                        lop[l].board[i][j] = 999
+
+                    }
+                }
             }
+            println()
         }
+
     }
 
     fun part1(input: List<String>): Int {
@@ -26,31 +25,35 @@ fun main() {
         val inputNumbers = input[0]
             .split(",")
             .map { it.toInt() }
+//        println(input)
+
         input
             .slice(1 until input.size)
-            .chunked(6)
-            .map {
-                it.map { l ->
-                    if (l.isNotEmpty()) {
-                        val (a, b, c, d, e) = l
-                            .replace("  ", " ")
-                            .trim()
-                            .split(" ")
-                            .map { s -> s.toInt() }
-                        listOfPlayers.add(Player(board = listOf(a, b, c, d, e), false))
-                    }
-                }
-            }
+            .map { it.replace("  ", " ") }
+            .filter { it.isNotEmpty() }
+            .map { it.trim() }
+            .map { it.split(" ") }
+            .map { it.map { l -> l.toInt() } }
+            .chunked(5)
+            .forEach { listOfPlayers.add(Player(it as MutableList<MutableList<Int>>, false)) }
 
-        for (i in inputNumbers) {
-            for (player in listOfPlayers) {
-                checkPlayerBoard(i, player)
-            }
+        listOfPlayers.forEach {
+            findValueInBoard(it, 22)
         }
+        findValueInBoard(listOfPlayers, 22)
+        println(listOfPlayers)
 
-        for (player in listOfPlayers) {
-            println(player)
-        }
+
+//                    if (l.isNotEmpty()) {
+//                        val (a, b, c, d, e) = l
+//                            .replace("  ", " ")
+//                            .trim()
+//                            .split(" ")
+//                            .map { s -> s.toInt() }
+//                        listOfPlayers.add(Player(board = listOf(a, b, c, d, e), false))
+//                    }
+
+
         return 0
     }
 
