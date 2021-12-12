@@ -12,23 +12,17 @@ fun main() {
     fun checkWinner(player: Player, y: Int, x: Int): Boolean {
         val b = player.board
 
-        if (b[y].all { it == 999 }) {
-            return true
-        }
-        var counter = 0
-        for (i in b.indices) {
-            if ((b[i][x]) == 999) counter++
-        }
-        if (counter == 5) {
-            return true
-        }
+        if (b[y].all { it == 999 }) return true
+
+        if (b.count { row -> row[x] == 999 } == 5) return true
+
         return false
     }
 
     fun findValueInBoard(player: Player, value: Int, hasWon: Boolean = false): Int {
         player.board.forEachIndexed { y, mutableList ->
             mutableList.forEachIndexed { x, v ->
-                if ((value == v)) {
+                if (value == v) {
                     player.board[y][x] = 999
                     if (checkWinner(player, y, x)) {
                         player.hasWon = true
