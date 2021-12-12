@@ -33,34 +33,50 @@ fun main() {
 //        println(smallCaves)
 //        println(bigCaves)
 
-        fun findPaths(current: List<String>, paths: MutableList<String>): MutableList<String> {
+        fun smallCaveInList(current: List<String>, paths: MutableList<String>): Boolean {
+            if (current[1] in smallCaves && current[1] in paths) {
+                return true
+            }
+            return false
+        }
+
+        fun findPaths(current: List<String>, lastArg: List<String>, paths: MutableList<String>): MutableList<String> {
+            var last = lastArg
 //            println("current: ${current[1]}")
 //            input.forEach { println("IT: ${it[1]}") }
 
 //            paths.add(current[1])
-            println("current: $current")
             paths.add(current[1])
-            val next = input.filter { it[0] == current[1] }.toMutableList()
-//            println("next: $next")
-            while (next.isNotEmpty()) {
-                val currentTmp = next.removeFirst()
-                if (findPaths(currentTmp, paths).isEmpty()) {
-//                    paths.add("end")
-//                    return paths
-//                    println("current: $currentTmp, is empty")
-                } else {
-                    findPaths(currentTmp, paths)
+            val nextList = input.filter { it[0] == current[1] }.toMutableList()
+            var flag = false
+            while (nextList.isNotEmpty()) {
+                if (!flag) {
+                    println(nextList)
+                    flag = true
                 }
+                val next = nextList.removeFirst()
+                println("last: $last")
+                println("current: $current")
+                println("next: $next")
+                if (next[1] == "end") {
+                    paths.add("end")
+                } else if (!smallCaveInList(next, paths)) {
+                    last = current
+                    findPaths(next, current, paths)
+                }
+//                else if (current[1] in bigCaves) {
+//                    println("lol")
+//                    findPaths(next, last, paths)
+//                }
             }
-//            if (paths.last() != "end") paths.clear()
-//            println("DELETED: $paths")
+            println("---")
             return mutableListOf()
         }
 
         input.forEachIndexed { i, j ->
             val paths = mutableListOf<String>("start")
 //            println(findPaths(j, paths))
-            findPaths(j, paths)
+            findPaths(j, listOf(""), paths)
 
         }
 
