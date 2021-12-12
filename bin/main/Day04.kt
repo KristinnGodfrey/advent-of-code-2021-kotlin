@@ -14,7 +14,7 @@ fun main() {
 
         if (b[y].all { row -> row == 999 }) return true
 
-        if (b.count { col -> col[x] == 999 } == 5) return true
+        if (b.all { col -> col[x] == 999 }) return true
 
         return false
     }
