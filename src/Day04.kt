@@ -13,26 +13,7 @@ fun main() {
 
     fun checkWinner(player: Player, y: Int, x: Int): Boolean {
         val b = player.board
-//        println("YX: $y,$x")
-//        var counter = 0
-//        var counter2 = 0
-//        var col = 0 - 1
-//        var row = 4 + 1
-//        for (i in 0..4) {
-//            col++
-//            row--
-//            if (b[i][i] == 999) counter++
-//            if (b[col][row] == 999) counter2++
-//        }
-//        if (counter == 5) {
-//            println("diagonal")
-//            return true
-//        }
-//        if (counter2 == 5) {
-//            println("diagonal")
-//            return true
-//        }
-        
+
         if (b[y].all { it == 999 }) {
             println("horizontal")
             println(b[y])
