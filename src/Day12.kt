@@ -50,7 +50,7 @@ fun main() {
                 if (next == "end") {
                     paths.add(next)
                     println("End")
-                } else if (!smallCaveInList(next, paths) && nextNotEmpty) {
+                } else if (!smallCaveInList(next, paths)) {
                     findPaths(next, current, paths)
                 }
             }
