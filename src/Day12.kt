@@ -31,12 +31,10 @@ fun main() {
             }
         }
 
-        fun smallCaveInList(current: String, paths: MutableList<String>): Boolean {
-            if (current in smallCaves && current in paths) {
-                return true
-            }
-            return false
+        fun canVisit(current: String, paths: MutableList<String>): Boolean {
+            return (current in bigCaves || current !in paths)
         }
+
 
         fun findPaths(current: String, lastArg: String, paths: MutableList<String>): MutableList<String> {
             var last = lastArg
@@ -50,12 +48,11 @@ fun main() {
                 if (next == "end") {
                     paths.add(next)
                     println("End")
-                } else if (!smallCaveInList(next, paths)) {
+                } else if (canVisit(next, paths)) {
                     findPaths(next, current, paths)
+                } else if (canVisit(last, paths)) {
+                    findPaths(last, current, paths)
                 }
-            }
-            if (last in bigCaves) {
-                findPaths(last, current, paths)
             }
 
             println("---")
