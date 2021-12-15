@@ -6,20 +6,38 @@ class Day13 {
     fun parseInput(input: List<String>): Set<Pt> =
         input.takeWhile { it.isNotEmpty() }.map { it.split(",").map { it.toInt() }.let { (x, y) -> Pt(x, y) } }.toSet()
 
-    fun parseFoldDirection(input: List<String>): String =
-        input[input.indexOf("") + 1].split("=")[0].split(" ").last()
+    fun parseFoldDirection(input: List<String>): List<String> {
+        val listOfFoldDirections = mutableListOf<String>()
+        var counter = 1
+        repeat(12) {
+            listOfFoldDirections.add(input[input.indexOf("") + counter].split("=")[0].split(" ").last())
+            counter += 1
+        }
 
-    fun parseFoldValue(input: List<String>): Int =
-        input[input.indexOf("") + 1].split("=")[1].toInt()
+        return listOfFoldDirections
+    }
 
-    fun fold(input: Set<Pt>, foldDirection: String, foldValue: Int): MutableSet<Pt> {
-        val (filtered, remainder) = input
-            .partition { if (foldDirection == "x") it.x < foldValue else it.y < foldValue }
-            .toList().map { it.toMutableSet() }
+    fun parseFoldValue(input: List<String>): List<Int> {
+        val listOfFoldValues = mutableListOf<Int>()
+        var counter = 1
+        repeat(12) {
+            listOfFoldValues.add(input[input.indexOf("") + counter].split("=")[1].toInt())
+            counter += 1
+        }
+        return listOfFoldValues
+    }
 
-        remainder.forEach {
-            if (foldDirection == "y") filtered.add(Pt(it.x, (it.y - ((it.y - foldValue) * 2))))
-            else filtered.add(Pt(it.x - ((it.x - foldValue) * 2), it.y))
+    fun fold(input: Set<Pt>, foldDirection: List<String>, foldValue: List<Int>): MutableSet<Pt> {
+
+        foldDirection.forEachIndexed { i, v ->
+            val (filtered, remainder) = input
+                .partition { if (foldDirection[i] == "x") it.x < foldValue[i] else it.y < foldValue[i] }
+                .toList().map { it.toMutableSet() }
+
+            remainder.forEach {
+                if (foldDirection[i] == "y") filtered.add(Pt(it.x, (it.y - ((it.y - foldValue[i]) * 2))))
+                else filtered.add(Pt(it.x - ((it.x - foldValue[i]) * 2), it.y))
+            }
         }
 
         return filtered
