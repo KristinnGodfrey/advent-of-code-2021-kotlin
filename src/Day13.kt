@@ -3,70 +3,64 @@ import java.io.File
 data class Pt(val x: Int, val y: Int)
 
 class Day13 {
-    fun Set<Pt>.printout() {
-        (0..this.maxOf { it.y }).forEach { y ->
-            (0..this.maxOf { it.x }).forEach { x ->
-                print(if (Pt(x, y) in this) "#" else " ")
+    fun parseInput(input: List<String>): Set<Pt> =
+        input.takeWhile { it.isNotEmpty() }.map { it.split(",").map { it.toInt() }.let { (x, y) -> Pt(x, y) } }.toSet()
+
+    fun parseFoldDirection(input: List<String>, parseIndex: Int): String =
+        input[input.indexOf("") + parseIndex].split("=")[0].split(" ").last()
+
+    fun parseFoldValue(input: List<String>, parseIndex: Int): Int =
+        input[input.indexOf("") + parseIndex].split("=")[1].toInt()
+
+    fun fold(input: Set<Pt>, foldDirection: String, foldValue: Int): MutableSet<Pt> {
+        val (filtered, remainder) = input
+            .partition { if (foldDirection == "x") it.x < foldValue else it.y < foldValue }
+            .toList().map { it.toMutableSet() }
+
+        remainder.forEach {
+            if (foldDirection == "y") filtered.add(Pt(it.x, (it.y - ((it.y - foldValue) * 2))))
+            else filtered.add(Pt(it.x - ((it.x - foldValue) * 2), it.y))
+        }
+
+        return filtered
+    }
+
+    fun printSet(input: Set<Pt>) {
+        (0..input.maxOf { it.y }).forEach { y ->
+            (0..input.maxOf { it.x }).forEach { x ->
+                print(if (Pt(x, y) in input) "#" else " ")
             }
             println()
         }
     }
-
-    fun printouter(input: Set<Pt>) {
-        println(input.printout())
-    }
-
-    fun parseInput(input: List<String>): Set<Pt> =
-        input.takeWhile { it.isNotEmpty() }.map { it.split(",").map { it.toInt() }.let { (x, y) -> Pt(x, y) } }.toSet()
-
-    fun parseFoldDirection(input: List<String>): List<String> {
-        val listOfFoldDirections = mutableListOf<String>()
-        var counter = 1
-        repeat(12) {
-            listOfFoldDirections.add(input[input.indexOf("") + counter].split("=")[0].split(" ").last())
-            counter += 1
-        }
-
-        return listOfFoldDirections
-    }
-
-    fun parseFoldValue(input: List<String>): List<Int> {
-        val listOfFoldValues = mutableListOf<Int>()
-        var counter = 1
-        repeat(12) {
-            listOfFoldValues.add(input[input.indexOf("") + counter].split("=")[1].toInt())
-            counter += 1
-        }
-        return listOfFoldValues
-    }
-
-    fun fold(input: Set<Pt>, foldDirection: List<String>, foldValue: List<Int>): MutableSet<Pt> {
-
-        foldDirection.forEachIndexed { i, v ->
-            val (filtered, remainder) = input
-                .partition { if (foldDirection[i] == "x") it.x < foldValue[i] else it.y < foldValue[i] }
-                .toList().map { it.toMutableSet() }
-
-            remainder.forEach {
-                if (foldDirection[i] == "y") filtered.add(Pt(it.x, (it.y - ((it.y - foldValue[i]) * 2))))
-                else filtered.add(Pt(it.x - ((it.x - foldValue[i]) * 2), it.y))
-            }
-            return filtered
-        }
-
-        return mutableSetOf()
-    }
 }
 
 fun main() {
-    val input = File("src/resources/day13.txt")
-        .readLines()
-
     val d = Day13()
-    val parsedInput = d.parseInput(input)
-    val foldDirection = d.parseFoldDirection(input)
-    val foldValue = d.parseFoldValue(input)
+    
+    fun part1(): Int {
+        val input = File("src/resources/day13.txt").readLines()
+        val filtered = d.parseInput(input)
+        val foldDirection = d.parseFoldDirection(input, 1)
+        val foldValue = d.parseFoldValue(input, 1)
+        return d.fold(filtered, foldDirection, foldValue).size
+    }
 
-    println(d.fold(parsedInput, foldDirection, foldValue).size)
+    fun part2() {
+        val input = File("src/resources/day13.txt").readLines()
+        var filtered = d.parseInput(input)
+        var parseIndex = 1
+        repeat(12) {
+            val foldDirection = d.parseFoldDirection(input, parseIndex)
+            val foldValue = d.parseFoldValue(input, parseIndex)
+            parseIndex += 1
+            filtered = d.fold(filtered, foldDirection, foldValue)
+        }
+        d.printSet(filtered)
+    }
+
+    println("answer 1: ${part1()}")
+    println("answer 2:").apply { part2() }
+
 }
 
