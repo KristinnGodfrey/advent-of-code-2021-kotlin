@@ -27,5 +27,14 @@ fun convertBinaryToDecimal(num: Long): Int {
     return decimalNumber
 }
 
+fun print2DGrid(input: Set<Pt>) {
+    for (y in 0..input.maxOf { it.y }) {
+        for (x in 0..input.maxOf { it.x }) {
+            print(if (Pt(x, y) in input) "#" else " ")
+        }
+        println()
+    }
+}
+
 
 

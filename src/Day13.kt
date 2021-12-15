@@ -6,10 +6,10 @@ class Day13 {
     fun parseInput(input: List<String>): Set<Pt> =
         input.takeWhile { it.isNotEmpty() }.map { it.split(",").map { it.toInt() }.let { (x, y) -> Pt(x, y) } }.toSet()
 
-    fun parseFoldDirection(input: List<String>, parseIndex: Int): String =
+    fun parseFoldDirection(input: List<String>, parseIndex: Int = 1): String =
         input[input.indexOf("") + parseIndex].split("=")[0].split(" ").last()
 
-    fun parseFoldValue(input: List<String>, parseIndex: Int): Int =
+    fun parseFoldValue(input: List<String>, parseIndex: Int = 1): Int =
         input[input.indexOf("") + parseIndex].split("=")[1].toInt()
 
     fun fold(input: Set<Pt>, foldDirection: String, foldValue: Int): MutableSet<Pt> {
@@ -26,8 +26,8 @@ class Day13 {
     }
 
     fun printSet(input: Set<Pt>) {
-        (0..input.maxOf { it.y }).forEach { y ->
-            (0..input.maxOf { it.x }).forEach { x ->
+        for (y in 0..input.maxOf { it.y }) {
+            for (x in 0..input.maxOf { it.x }) {
                 print(if (Pt(x, y) in input) "#" else " ")
             }
             println()
@@ -37,12 +37,12 @@ class Day13 {
 
 fun main() {
     val d = Day13()
-    
+
     fun part1(): Int {
         val input = File("src/resources/day13.txt").readLines()
         val filtered = d.parseInput(input)
-        val foldDirection = d.parseFoldDirection(input, 1)
-        val foldValue = d.parseFoldValue(input, 1)
+        val foldDirection = d.parseFoldDirection(input)
+        val foldValue = d.parseFoldValue(input)
         return d.fold(filtered, foldDirection, foldValue).size
     }
 
@@ -57,10 +57,11 @@ fun main() {
             filtered = d.fold(filtered, foldDirection, foldValue)
         }
         d.printSet(filtered)
+        print2DGrid(filtered)
     }
-
     println("answer 1: ${part1()}")
     println("answer 2:").apply { part2() }
-
 }
+
+
 
