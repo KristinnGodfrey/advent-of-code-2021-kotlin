@@ -3,6 +3,19 @@ import java.io.File
 data class Pt(val x: Int, val y: Int)
 
 class Day13 {
+    fun Set<Pt>.printout() {
+        (0..this.maxOf { it.y }).forEach { y ->
+            (0..this.maxOf { it.x }).forEach { x ->
+                print(if (Pt(x, y) in this) "#" else " ")
+            }
+            println()
+        }
+    }
+
+    fun printouter(input: Set<Pt>) {
+        println(input.printout())
+    }
+
     fun parseInput(input: List<String>): Set<Pt> =
         input.takeWhile { it.isNotEmpty() }.map { it.split(",").map { it.toInt() }.let { (x, y) -> Pt(x, y) } }.toSet()
 
@@ -38,9 +51,10 @@ class Day13 {
                 if (foldDirection[i] == "y") filtered.add(Pt(it.x, (it.y - ((it.y - foldValue[i]) * 2))))
                 else filtered.add(Pt(it.x - ((it.x - foldValue[i]) * 2), it.y))
             }
+            return filtered
         }
 
-        return filtered
+        return mutableSetOf()
     }
 }
 
