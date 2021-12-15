@@ -16,15 +16,13 @@ class Day13 {
         val (filtered, remainder) = input
             .partition { if (foldDirection == "x") it.x < foldValue else it.y < foldValue }
             .toList().map { it.toMutableSet() }
-        foldSet(remainder, filtered, foldValue, foldDirection)
-        return filtered
-    }
 
-    private fun foldSet(remainder: MutableSet<Pt>, filtered: MutableSet<Pt>, foldValue: Int, foldDirection: String) {
         remainder.forEach {
             if (foldDirection == "y") filtered.add(Pt(it.x, (it.y - ((it.y - foldValue) * 2))))
             else filtered.add(Pt(it.x - ((it.x - foldValue) * 2), it.y))
         }
+
+        return filtered
     }
 }
 
@@ -34,12 +32,9 @@ fun main() {
 
     val d = Day13()
     val parsedInput = d.parseInput(input)
-    println(parsedInput)
     val foldDirection = d.parseFoldDirection(input)
     val foldValue = d.parseFoldValue(input)
 
-    // initial:       [Pt(x=6, y=10), Pt(x=0, y=14), Pt(x=9, y=10), Pt(x=0, y=3), Pt(x=10, y=4), Pt(x=4, y=11), Pt(x=6, y=0), Pt(x=6, y=12), Pt(x=4, y=1), Pt(x=0, y=13), Pt(x=10, y=12), Pt(x=3, y=4), Pt(x=3, y=0), Pt(x=8, y=4), Pt(x=1, y=10), Pt(x=2, y=14), Pt(x=8, y=10), Pt(x=9, y=0)]
-    // chunked(7)[0]: [Pt(x=6, y=10), Pt(x=0, y=14), Pt(x=9, y=10), Pt(x=0, y=3), Pt(x=10, y=4), Pt(x=4, y=11), Pt(x=6, y=0)]
     println(d.fold(parsedInput, foldDirection, foldValue).size)
 }
 
