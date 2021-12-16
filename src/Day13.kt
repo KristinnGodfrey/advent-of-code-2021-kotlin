@@ -57,7 +57,6 @@ fun main() {
             filtered = d.fold(filtered, foldDirection, foldValue)
         }
         d.printSet(filtered)
-        print2DGrid(filtered)
     }
     println("answer 1: ${part1()}")
     println("answer 2:").apply { part2() }
