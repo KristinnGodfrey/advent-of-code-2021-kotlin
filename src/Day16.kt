@@ -6,31 +6,31 @@ fun main() {
     val version = convertBinaryToDecimal(binaryNumber.slice(0..2).toLong())
     val typeID = convertBinaryToDecimal(binaryNumber.slice(3..5).toLong())
     val packets = parsePackets(binaryNumber)
-    packets.add("10100")
-    println(packets)
+//    packets.add("10100")
+//    println(packets)
     val currentBits = findBitRange(packets)
-    println(currentBits)
+//    println(packets)
+}
 
-//        .map { it.slice(1 until 5) }
+private fun findBitRange(packets: MutableList<String>) {
+    packets.forEachIndexed { i, v ->
+        if (i == 0) {
+            packets[0] = v.slice(1 until 5)
+        } else {
+            packets[0] += v.slice(1 until 5)
+        }
+        if (v.first() == '0') {
+            println(packets)
+            repeat(i) {
+                packets.removeAt(1)
+            }
+            println(packets)
+            return
+        }
 
-//    val typeIDLength = binaryNumber[6].toInt()
-//    println(typeIDLength)
-//
-//    println(version)
-//    println(typeID)
-//    if (typeID == 4) {
-//        println(literalValue(binaryNumber))
-//    }
-//    else {
-//        if (typeIDLength == 0) { // 15 bit number bits
-//            val packets = binaryNumber
-//                .slice(7 until binaryNumber.length)
-//                .trimEnd('0')
-//        } else if (typeIDLength == 1) { // 11 bit number
-//            println(operator())
-//        }
-//        println(operator())
-//    }
+
+    }
+    return
 }
 
 private fun parsePackets(binaryNumber: String): MutableList<String> {
@@ -42,17 +42,6 @@ private fun parsePackets(binaryNumber: String): MutableList<String> {
         packets.remove(packets.last())
     }
     return packets
-}
-
-private fun findBitRange(packets: MutableList<String>): String {
-    val builder = StringBuilder()
-    packets.forEachIndexed { i, v ->
-        builder.append(v.slice(1 until 5))
-        if (v.first() == '0') {
-            return builder.toString()
-        }
-    }
-    return builder.toString()
 }
 
 private fun operator() {
