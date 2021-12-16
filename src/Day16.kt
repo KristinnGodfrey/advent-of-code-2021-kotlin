@@ -1,31 +1,21 @@
 data class num(val version: String, val typeID: String)
 
 fun main() {
-    val hexadecimalNumber = "8A004A801A8002F478"
+    val hexadecimalNumber = "38006F45291200"
     val binaryNumber = hexToBinary(hexadecimalNumber)
-    println(binaryNumber)
     val version = convertBinaryToDecimal(binaryNumber.slice(0..2).toLong())
     val typeID = convertBinaryToDecimal(binaryNumber.slice(3..5).toLong())
-//    val packets = parsePackets(binaryNumber)
-
-    println(version)
-    println(typeID)
+//    val packets = binaryNumber.slice(7 until binaryNumber.length)
+    val typeIDLength = binaryNumber[6]
+    println(typeIDLength)
+//    println(version)
+//    println(typeID)
 
     if (typeID == 4) {
-        val packets = binaryNumber.slice(6..binaryNumber.length)
-//        literalValue(binaryNumber)
+        literalValue(packets)
     } else {
-        val typeIDLength = binaryNumber[6].toInt()
-        if (typeIDLength == 0) { // 15
-
-        } else if (typeIDLength == 1) // 11
-        {
-
-        } else {
-            println("invalid typeID")
-        }
+        operator(packets, typeIDLength)
     }
-//    val currentBits = parseBits(packets)
 }
 
 private fun parseBits(packets: MutableList<String>) {
@@ -47,19 +37,16 @@ private fun parseBits(packets: MutableList<String>) {
     return
 }
 
-private fun parsePackets(binaryNumber: String): MutableList<String> {
-    val packets = binaryNumber
-        .slice(6 until binaryNumber.length)
-        .chunked(5).toMutableList()
+private fun operator(packets: String, typeIDLength: Char) {
+    println(packets)
+    if (typeIDLength == '0') { // 15
 
-    if (packets.last().all { it == '0' }) {
-        packets.remove(packets.last())
+    } else if (typeIDLength == '1') // 11
+    {
+
+    } else {
+        println("invalid typeID")
     }
-    return packets
-}
-
-private fun operator() {
-
 }
 
 private fun literalValue(binaryNumber: String): Int {
@@ -81,6 +68,18 @@ private fun literalValue(binaryNumber: String): Int {
         .toLong())
     return decimal
 }
+
+private fun parsePackets(binaryNumber: String): MutableList<String> {
+    val packets = binaryNumber
+        .slice(6 until binaryNumber.length)
+        .chunked(5).toMutableList()
+
+    if (packets.last().all { it == '0' }) {
+        packets.remove(packets.last())
+    }
+    return packets
+}
+
 
 private fun hexToBinary(hexaDecimalN: String): String {
 
