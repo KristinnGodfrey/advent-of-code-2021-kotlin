@@ -1,18 +1,34 @@
 data class num(val version: String, val typeID: String)
 
 fun main() {
-    val hexadecimalNumber = "D2FE28"
+    val hexadecimalNumber = "8A004A801A8002F478"
     val binaryNumber = hexToBinary(hexadecimalNumber)
+    println(binaryNumber)
     val version = convertBinaryToDecimal(binaryNumber.slice(0..2).toLong())
     val typeID = convertBinaryToDecimal(binaryNumber.slice(3..5).toLong())
-    val packets = parsePackets(binaryNumber)
-//    packets.add("10100")
-//    println(packets)
-    val currentBits = findBitRange(packets)
-//    println(packets)
+//    val packets = parsePackets(binaryNumber)
+
+    println(version)
+    println(typeID)
+
+    if (typeID == 4) {
+        val packets = binaryNumber.slice(6..binaryNumber.length)
+//        literalValue(binaryNumber)
+    } else {
+        val typeIDLength = binaryNumber[6].toInt()
+        if (typeIDLength == 0) { // 15
+
+        } else if (typeIDLength == 1) // 11
+        {
+
+        } else {
+            println("invalid typeID")
+        }
+    }
+//    val currentBits = parseBits(packets)
 }
 
-private fun findBitRange(packets: MutableList<String>) {
+private fun parseBits(packets: MutableList<String>) {
     packets.forEachIndexed { i, v ->
         if (i == 0) {
             packets[0] = v.slice(1 until 5)
@@ -27,8 +43,6 @@ private fun findBitRange(packets: MutableList<String>) {
             println(packets)
             return
         }
-
-
     }
     return
 }
